@@ -14,7 +14,7 @@ const Hero = () => {
         try {
             console.log("Making API call with first_name:", searchQuery);  // Log search query to console
 
-            const response = await fetch('https://www.endsem.com/search', {
+            const response = await fetch('https://apis.endsem.com/search', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
