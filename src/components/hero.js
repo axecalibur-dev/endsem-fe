@@ -48,21 +48,23 @@ const Hero = () => {
 
     return (
         <main className="hero">
-            <div className="search-container">
-                <input
-                    className="search-input-bar"
-                    placeholder="Find your tribe"
-                    value={searchQuery}
-                    onChange={handleInputChange} // Update the state when user types
-                />
-                <button
-                    className="search-button"
-                    onClick={handleSearchClick} // Trigger the API call on button click
-                >
-                    <i className="fa fa-search"></i>  {/* FontAwesome search icon */}
-                </button>
-            </div>
-        </main>
+    <div className="hero-title">endsem</div>  {/* Add this line to display the text */}
+    <div className="search-container">
+        <input
+            className="search-input-bar"
+            placeholder="Find your tribe"
+            value={searchQuery}
+            onChange={handleInputChange}
+        />
+        <button
+            className="search-button"
+            onClick={handleSearchClick}
+        >
+            <i className="fa fa-search"></i> 
+        </button>
+    </div>
+</main>
+
     );
 };
 
