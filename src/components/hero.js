@@ -49,6 +49,7 @@ const Hero = () => {
     return (
         <main className="hero">
     <div className="hero-title">endsem</div>  {/* Add this line to display the text */}
+
     <div className="search-container">
         <input
             className="search-input-bar"
@@ -63,6 +64,8 @@ const Hero = () => {
             <i className="fa fa-search"></i> 
         </button>
     </div>
+    <br></br>
+    <div className='subtext'>Want to help build endsem ? Drop a 👋 at jai@endsem.com</div>
 </main>
 
     );
