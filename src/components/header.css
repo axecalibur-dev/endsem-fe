@@ -1,0 +1,40 @@
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: white;
+    color: black;
+    padding: 5px 15px;
+    border-radius: 25px;
+}
+
+.nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: black;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.nav a:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.login-signup {
+    font-weight: bold;
+}
