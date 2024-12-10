@@ -18,7 +18,7 @@ const Hero = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': '', // Empty Authorization header
+                    'Authorization': process.env.PERMA_ACCESS_TOKEN
                 },
                 body: JSON.stringify({ first_name: searchQuery }) // Pass search query as first_name in the body
             });
