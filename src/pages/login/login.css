@@ -116,8 +116,7 @@
 /* Button styling */
 .login-submit-button, .reset-submit-button {
     border: 2px solid transparent;
-    border-radius: 10px;
-    background-color: #058fff;
+    background-color: #2ca0fd;
     outline: none;
     font-family: 'Quicksand', serif;
     color: white;
@@ -132,9 +131,16 @@
 }
 
 .reset-submit-button {
-    background-color: red;
+    background-color: #ff5050;
+    width: 150px; /* Width of the buttons */
 }
-
+form {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Add space between input fields and buttons */
+}
 
 /* Label container with flex to align text and icon horizontally */
 .label {
@@ -152,5 +158,32 @@
     font-size: 50px; /* Set icon size */
     margin-left: 11px;
     margin-right: 10px;
-    margin-top: 5px; /* Space between the icon and the text */
+    margin-top: 3px; /* Space between the icon and the text */
+}
+
+
+.api-response {
+    display: flex;
+    font-weight: bold;
+    text-align: left;
+    justify-content: flex-start;
+    flex-direction: column; /* Align elements vertically, if needed */
+    align-items: flex-start; /* Align the response text to the start */
+    margin-top: 20px; /* Adds some space from the form */
+    padding-left: 22px; /* Add some padding from the left edge */
+    width: 100%; /* Ensure it stretches to the full width of its parent container */
+}
+
+.sign-up-prompt {
+    display: flex;
+    font-weight: bold;
+    color: #078bf8;
+    text-align: left;
+    justify-content: flex-start;
+    flex-direction: column; /* Align elements vertically, if needed */
+    align-items: flex-start; /* Align the response text to the start */
+    margin-top: 20px; /* Adds some space from the form */
+    padding-left: 23px; /* Add some padding from the left edge */
+    width: 100%; /* Ensure it stretches to the full width of its parent container */
+
 }

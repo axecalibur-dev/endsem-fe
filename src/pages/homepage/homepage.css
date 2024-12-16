@@ -63,18 +63,19 @@
 
 #pill-btn:hover {
     background-color: white; /* Keeps the background white on hover */
-    border: 3px solid #48dcff; /* Add border only on hover */
+    border: 3px solid #ff0000;; /* Add border only on hover */
     cursor: pointer;
 }
 #pill-btn:active {
-    background-color:  #48dcff; /* Keeps the background white on hover */
+    background-color:  #ff0000;; /* Keeps the background white on hover */
     color: white;
     cursor: pointer;
 }
 
 #pill-btn-auth {
     display: flex;
-    background-color: white;
+    background-color: #ff0000;
+    color: white;
     height: 41px;
     width: 200px;
     justify-content: center;
@@ -102,7 +103,8 @@
 
 
 #pill-btn-auth:hover {
-    background-color: white; /* Keeps the background white on hover */
+    background-color: white;; /* Keeps the background white on hover */
+    color:#ff0000;
     border: 3px solid #ff0d0d; /* Add border only on hover */
     cursor: pointer;
     text-decoration: none;
@@ -117,11 +119,11 @@
 
 
 #pill-btn-logo {
-    background-color: white;
+    background-color: #ff0000;
+    color: white;
     height: 41px; /* Initial height */
     width: 95px;  /* Initial width */
     border: none;
-    color: #48dcff;
     border-radius: 100px;
     font-weight: bold;
     font-size: 20px;
@@ -129,7 +131,7 @@
 }
 
 #pill-btn-logo:hover {
-    background-color: #48dcff;;
+    background-color: #ff0000;;;
     transform: scale(1.26); /* Scale the button (1.26 is ~60px/41px and ~120px/95px) */
     color: white;
     cursor: pointer;
@@ -188,7 +190,7 @@
     right: 10px; /* Position it on the right side */
     height: 60px;
     width: 60px;
-    background-color: #1dff07;
+    background-color: #ff0000;
     color: white;
     border: 2px solid transparent;
     font-weight: bold;
@@ -203,6 +205,6 @@
 .submit-button:hover {
     background-color: white;
     color: black;
-    border: 3px solid #1dff07;
+    border: 3px solid #ff0000;
     cursor: pointer;
 }
