@@ -1,5 +1,6 @@
 import React from "react";
 import './homepage.css';
+import {Link} from "react-router-dom";
 
 function Homepage() {
     return (
@@ -21,9 +22,11 @@ function Homepage() {
                         <button id="pill-btn" className="contact-button">
                              <b>Contact</b>
                         </button>
+                        <Link to="/login">
                         <button id="pill-btn-auth" className="auth-button">
                             <b>Login | Join a tribe</b><i className='material-icons'>login</i>
                         </button>
+                        </Link>
                     </div>
                 </div>
             </div>

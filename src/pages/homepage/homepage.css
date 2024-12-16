@@ -57,6 +57,7 @@
     transition: background 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
     font-size: 15px; /* Font size */
     border-radius: 100px; /* Rounded corners */
+    text-decoration: none;
     text-align: center; /* Centers text horizontally */
 }
 
@@ -83,12 +84,20 @@
     transition: background 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
     border-radius: 100px;
     padding: 0 10px; /* Optional: Adds space on the left and right of the button */
+    text-decoration: none;
+}
+#pill-btn-auth b {
+    text-decoration: none; /* Remove underline specifically from the <b> tag */
 }
 
+#pill-btn-auth i {
+    text-decoration: none; /* Remove underline specifically from the <i> tag */
+}
 #pill-btn-auth i.material-icons {
     margin-top:1px;
     margin-left: 5px; /* Space between text and icon */
     font-size: 20px; /* Adjust size if needed */
+    text-decoration: none;
 }
 
 
@@ -96,6 +105,7 @@
     background-color: white; /* Keeps the background white on hover */
     border: 3px solid #ff0d0d; /* Add border only on hover */
     cursor: pointer;
+    text-decoration: none;
 }
 
 #pill-btn-auth:active {
