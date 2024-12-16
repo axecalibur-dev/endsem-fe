@@ -3,6 +3,8 @@ import "./login.css";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { gql } from "graphql-tag";
+import CommonUtilities from "../../utils/common";
+const Utils = new CommonUtilities();
 
 // GraphQL Mutation
 const LOGIN_MUTATION = gql`
@@ -41,6 +43,12 @@ function LoginPage() {
         },
       });
       console.log("Login successful:", data.login);
+      if (data && data.login && data.login.access_token) {
+        Utils.save_authentication_local(
+          data.login["access_token"],
+          data.login["refresh_token"],
+        );
+      }
     } catch (err) {
       console.error("Login error:", err);
     }
