@@ -1,0 +1,198 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* Set homepage-container as a grid layout */
+.homepage-container {
+    display: grid;                 /* Set the container to use grid */
+    grid-template-rows: auto 1fr;   /* First row (header) is auto-sized, second row (main) takes up remaining space */
+    min-height: 100vh;
+    width: 100%;                    /* Full viewport width */
+    background-image: url("../../../public/media/friends.jpg");  /* Path to your image */
+    background-size: cover;         /* Ensures the image covers the whole page */
+    background-position: center;    /* Centers the image */
+    background-repeat: no-repeat;
+}
+
+/* Make the header use the full width of the page */
+.header {
+    display: flex;
+    justify-content: space-between; /* Distribute the items across the header */
+    align-items: center;            /* Center items vertically */
+    width: 100%;
+    height: 100px;/* Ensure header takes full width */
+}
+
+/* Make the navbar also a flex container */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Spread navbar items out */
+    width: 100%;                    /* Ensure navbar takes full width */
+}
+
+/* Align buttons in navbar-right to the right side */
+.navbar-right {
+    display: flex;
+    justify-content: space-between;  /* Spread the buttons out horizontally */
+    margin-left: auto;               /* Push the navbar-right section to the right */
+    gap: 20px;
+    padding-right: 20px;
+}
+
+.navbar-left {
+    display: flex;
+    justify-content: space-between;  /* Spread the buttons out horizontally */
+    margin-right: auto;               /* Push the navbar-right section to the right */
+    gap: 20px;
+    padding-left: 30px;
+}
+/* Style for the navbar buttons */
+
+#pill-btn {
+    background-color: white;
+    height: 41px; /* Fixed height */
+    width: 95px;  /* Fixed width */
+    border: 2px solid transparent; /* Define a transparent border */
+    transition: background 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
+    font-size: 15px; /* Font size */
+    border-radius: 100px; /* Rounded corners */
+    text-align: center; /* Centers text horizontally */
+}
+
+#pill-btn:hover {
+    background-color: white; /* Keeps the background white on hover */
+    border: 3px solid #48dcff; /* Add border only on hover */
+    cursor: pointer;
+}
+#pill-btn:active {
+    background-color:  #48dcff; /* Keeps the background white on hover */
+    color: white;
+    cursor: pointer;
+}
+
+#pill-btn-auth {
+    display: flex;
+    background-color: white;
+    height: 41px;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    border: 2px solid transparent; /* Define a transparent border */
+    transition: background 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
+    border-radius: 100px;
+    padding: 0 10px; /* Optional: Adds space on the left and right of the button */
+}
+
+#pill-btn-auth i.material-icons {
+    margin-top:1px;
+    margin-left: 5px; /* Space between text and icon */
+    font-size: 20px; /* Adjust size if needed */
+}
+
+
+#pill-btn-auth:hover {
+    background-color: white; /* Keeps the background white on hover */
+    border: 3px solid #ff0d0d; /* Add border only on hover */
+    cursor: pointer;
+}
+
+#pill-btn-auth:active {
+    background-color:  #ff0d0d; /* Keeps the background white on hover */
+    color: white;
+    cursor: pointer;
+}
+
+
+
+#pill-btn-logo {
+    background-color: white;
+    height: 41px; /* Initial height */
+    width: 95px;  /* Initial width */
+    border: none;
+    color: #48dcff;
+    border-radius: 100px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: transform 0.3s ease-in-out; /* Transition on transform */
+}
+
+#pill-btn-logo:hover {
+    background-color: #48dcff;;
+    transform: scale(1.26); /* Scale the button (1.26 is ~60px/41px and ~120px/95px) */
+    color: white;
+    cursor: pointer;
+}
+
+/* main */
+
+.main {
+    display: flex;
+    flex-direction: column;  /* Arrange heading and input-box vertically */
+    justify-content: center; /* Optional: Center content inside .main */
+    align-items: center;     /* Optional: Center content inside .main */
+    text-align: center;      /* Optional: Center text inside the .main */
+}
+
+/* Example of centering child elements inside .main */
+.heading {
+    color: white;
+    display: flex;
+    font-size: 130px;
+    margin-bottom: 20px;
+}
+
+.main .input-box {
+    display: flex;
+    align-items: center;
+    width: 800px; /* Set a width for the entire container */
+    position: relative; /* Allows the button to be positioned inside the container */
+}
+
+.main .input-box .input-area {
+    flex-grow: 1;                          /* Allow the input to take up available space */
+    height: 90px;
+    border-radius: 100px;
+    outline: none;
+    border: 2px solid transparent;
+    font-family: 'Quicksand', serif;
+    font-weight: bold;
+    color: black;
+    font-size: 28px;
+    padding-left: 20px;
+    opacity: 0.5;
+    transition: opacity 0.6s ease;
+}
+
+.main .input-box .input-area:hover {
+    opacity: 1;
+}
+
+.main .input-box .input-area::placeholder {
+    color: black;  /* Set the placeholder text color to black */
+}
+
+.submit-button {
+    position: absolute; /* Position button inside the input box */
+    right: 10px; /* Position it on the right side */
+    height: 60px;
+    width: 60px;
+    background-color: #1dff07;
+    color: white;
+    border: 2px solid transparent;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 100px;
+    display: flex; /* Align icon in the center */
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.submit-button:hover {
+    background-color: white;
+    color: black;
+    border: 3px solid #1dff07;
+    cursor: pointer;
+}
