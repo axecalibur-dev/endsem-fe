@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { gql } from "graphql-tag";
 import CommonUtilities from "../../utils/common";
+import { useUser } from "../../context/userContext"; // Import context hook
+
 const Utils = new CommonUtilities();
 
 // GraphQL Mutation
@@ -25,9 +27,21 @@ const LOGIN_MUTATION = gql`
 `;
 
 function LoginPage() {
-  // State hooks for email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { updateUser } = useUser(); // Get updateUser function from context
+  const navigate = useNavigate(); // To navigate to different pages
+
+  // Check if the user is already logged in
+  useEffect(() => {
+    const isLoggedIn =
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("userDetails");
+    if (isLoggedIn) {
+      navigate("/profile"); // Redirect to the profile page if the user is already logged in
+    }
+  }, [navigate]);
 
   // Apollo mutation hook
   const [login, { loading, error, data }] = useMutation(LOGIN_MUTATION);
@@ -43,11 +57,30 @@ function LoginPage() {
         },
       });
       console.log("Login successful:", data.login);
+
       if (data && data.login && data.login.access_token) {
+        // Save authentication tokens and user details to localStorage
         Utils.save_authentication_local(
           data.login["access_token"],
           data.login["refresh_token"],
         );
+
+        // Save user details in localStorage
+        Utils.save_user_details_local({
+          firstName: data.login.data.firstName,
+          lastName: data.login.data.lastName,
+          email: data.login.data.email,
+        });
+
+        // Update user context after successful login
+        updateUser({
+          firstName: data.login.data.firstName,
+          lastName: data.login.data.lastName,
+          email: data.login.data.email,
+        });
+
+        console.log("User context updated after login!");
+        navigate("/profile"); // Redirect to profile page after login
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -112,12 +145,12 @@ function LoginPage() {
             {error && <p className="error-message">Error: {error.message}</p>}
             {data && (
               <p className="success-message">
-                Login Successful ! Redirecting you to home ->
+                Login Successful! Redirecting you to home ->
               </p>
             )}
           </div>
           <div className="sign-up-prompt">
-            Forgot password | Not a member ? Join endsem
+            Forgot password | Not a member ? <a href="/signup"> Join endsem</a>
           </div>
         </div>
       </div>

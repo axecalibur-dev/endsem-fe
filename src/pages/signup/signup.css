@@ -1,0 +1,185 @@
+/* Global reset for consistent styles */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.signup-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns (50% each) */
+    grid-template-rows: auto 1fr;  /* Navbar at the top, remaining space for content */
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+}
+
+/* Navbar Styling */
+.signup-navbar-login {
+    grid-column: 1 / 2; /* Occupies the left column */
+    grid-row: 1 / 2; /* Stays at the top row */
+    background-color: white; /* Optional background for visual clarity */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: auto; /* Prevent stretching */
+}
+
+/* Logo inside the Navbar */
+.signup-navbar img {
+    height: 40px; /* Adjust logo size */
+    object-fit: contain;
+}
+
+/* Content Area Styling */
+.signup-content {
+    grid-column: 1 / 2; /* Left column */
+    grid-row: 2 / 3; /* Below the navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Image Styling */
+.signup-image {
+    grid-column: 2 / 3; /* Occupies the right column */
+    grid-row: 1 / 3; /* Spans both rows (full height) */
+    background-image: url('../../../public/media/street.jpg'); /* Path to your image */
+    background-size: cover; /* Cover the entire column */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Avoid repeating the image */
+}
+
+.signup-logo {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-top: 20px;
+    height: 40px;
+    width: 100px;
+    border-radius: 100px;
+    font-size: 21px;
+    font-family: 'Quicksand', serif;
+    background-color: #139dff;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    color: white;
+    text-decoration: none;
+}
+
+/* Ensure the parent container spans the full height and width of the viewport */
+.signup-content {
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center the form horizontally */
+    align-items: center; /* Center the form vertically */
+    height: 100vh; /* Fill available height */
+    width: 100%; /* Fill available width */
+}
+
+/* Center the form and its elements */
+.signup-form {
+    display: flex; /* Flexbox for stacking inputs and buttons */
+    flex-direction: column; /* Stack vertically */
+    align-items: center; /* Center elements horizontally within the form */
+    gap: 20px; /* Add space between elements */
+    width: 100%; /* Optional: Define width of the form */
+    max-width: 600px; /* Limit form width for better aesthetics */
+    padding: 20px; /* Optional: Add padding around the form */
+    box-sizing: border-box; /* Include padding and border in width calculations */
+}
+
+/* Input fields styling */
+.signup-username, .signup-password {
+    outline: none;
+    border: 1px solid #adadad;
+    font-family: 'Quicksand', serif;
+    height: 50px;
+    font-size: 20px;
+    padding-left: 10px;
+    width: 500px; /* Ensuring inputs and buttons are the same width */
+}
+
+/* Left-align the buttons in the submissions container */
+.signup-submissions {
+    display: flex; /* Use flexbox to align buttons */
+    gap: 20px; /* Space between the buttons */
+    justify-content: flex-start; /* Align buttons to the left */
+    width: 500px; /* Match the width of the input fields */
+    align-items: center; /* Align buttons vertically with the input fields */
+}
+
+/* Button styling */
+.signup-submit-button, .signup-reset-button {
+    border: 2px solid transparent;
+    background-color: #2ca0fd;
+    outline: none;
+    font-family: 'Quicksand', serif;
+    color: white;
+    height: 50px; /* Same height as input fields */
+    font-weight: bold;
+    width: 200px; /* Width of the buttons */
+    font-size: 20px;
+    display: flex; /* Use Flexbox */
+    align-items: center; /* Align text and icon vertically */
+    justify-content: center; /* Center text and icon horizontally */
+    gap: 10px; /* Adds space between the text and icon */
+}
+
+.signup-reset-button {
+    background-color: #ff5050;
+    width: 150px; /* Width of the buttons */
+}
+
+.signup-form-container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Add space between input fields and buttons */
+}
+
+/* Label container with flex to align text and icon horizontally */
+.signup-label {
+    color: black;
+    display: flex; /* Use flexbox to align text and icon in a row */
+    align-items: center; /* Vertically center the text and icon */
+    font-size: 40px; /* Set font size for the label */
+    font-weight: bold;
+    width: 500px; /* Match the width of the inputs */
+    text-align: left; /* Align label text to the left */
+}
+
+/* Icon styling */
+.signup-label i {
+    font-size: 50px; /* Set icon size */
+    margin-left: 11px;
+    margin-right: 10px;
+    margin-top: 3px; /* Space between the icon and the text */
+}
+
+.signup-api-response {
+    display: flex;
+    font-weight: bold;
+    text-align: left;
+    justify-content: flex-start;
+    flex-direction: column; /* Align elements vertically, if needed */
+    align-items: flex-start; /* Align the response text to the start */
+    margin-top: 20px; /* Adds some space from the form */
+    padding-left: 22px; /* Add some padding from the left edge */
+    width: 100%; /* Ensure it stretches to the full width of its parent container */
+}
+
+.signup-sign-up-prompt {
+    display: flex;
+    font-weight: bold;
+    color: #078bf8;
+    text-align: left;
+    justify-content: flex-start;
+    flex-direction: column; /* Align elements vertically, if needed */
+    align-items: flex-start; /* Align the response text to the start */
+    margin-top: 20px; /* Adds some space from the form */
+    padding-left: 23px; /* Add some padding from the left edge */
+    width: 100%; /* Ensure it stretches to the full width of its parent container */
+}
