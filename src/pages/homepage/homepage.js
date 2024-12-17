@@ -76,10 +76,12 @@ function Homepage() {
             >
               <b>
                 {isLoggedIn
-                  ? `Salut, ${userDetails.firstName}`
+                  ? `Namaste, ${userDetails.firstName}`
                   : "Login | Join a tribe"}
               </b>
-              <i className="material-icons">{isLoggedIn ? "bolt" : "login"}</i>
+              <i className="material-icons">
+                {isLoggedIn ? "favorite" : "login"}
+              </i>
             </button>
             {isLoggedIn && (
               <button
