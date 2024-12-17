@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./homepage.css";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/userContext"; // Assuming you have this context to get user details
-import { gql, useApolloClient } from "@apollo/client";
+import { useUser } from "../../context/userContext";
 
 function Homepage() {
   const { userDetails: contextUserDetails, updateUser } = useUser(); // Get user details and updateUser from context
   const [userDetails, setUserDetails] = useState(contextUserDetails); // Local state to manage user details
+  const [inputValue, setInputValue] = useState(""); // State for the input value
   const navigate = useNavigate(); // To navigate to different pages
-  const client = useApolloClient(); // Use Apollo Client for GraphQL requests
-
-  // GraphQL logout query
-  const LOGOUT_QUERY = gql`
-    query Query {
-      log_out {
-        message
-        status
-      }
-    }
-  `;
 
   // Check if user is logged in (using context first, fallback to localStorage)
   useEffect(() => {
     if (!contextUserDetails) {
-      // If userDetails is not available in context, try fetching from localStorage
       const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
       if (savedUserDetails) {
         setUserDetails(savedUserDetails);
@@ -34,69 +22,79 @@ function Homepage() {
   // Check if user is logged in and get their firstName
   const isLoggedIn = userDetails && userDetails.firstName;
 
-  // Handle button click (redirect to profile if logged in, otherwise login)
+  // Placeholder text logic
+  const placeholderText = userDetails?.firstName
+    ? `Find your tribe, ${userDetails.firstName} !`
+    : "Find your tribe !";
+
+  // Handle login button click
   const handleAuthButtonClick = () => {
     if (isLoggedIn) {
-      navigate("/profile"); // Redirect to the user's profile if logged in
+      navigate("/profile");
     } else {
-      navigate("/login"); // Redirect to login page if not logged in
+      navigate("/login");
     }
   };
 
-  // Logout functionality with GraphQL call
+  // Logout functionality
   const handleLogout = async () => {
     try {
-      // Get access token from localStorage
-      const accessToken = localStorage.getItem("access_token");
-
-      if (accessToken) {
-        // Call the logout API with the access token
-        const response = await client.query({
-          query: LOGOUT_QUERY,
-          context: {
-            headers: {
-              Authorization: `${accessToken}`,
-            },
-          },
-        });
-
-        if (response.data?.log_out?.status) {
-          console.log("Logout successful:", response.data.log_out.message);
-          console.log("Logout successful:", response.data.log_out.status);
-        } else {
-          console.error("Logout failed:", response.data?.log_out?.message);
-        }
-      }
+      // Make API call to logout
+      const token = localStorage.getItem("access_token");
+      await fetch("https://apis.endsem.com/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          query: `query {
+            log_out {
+              message
+              status
+            }
+          }`,
+        }),
+      });
 
       // Clear user details and tokens from localStorage
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("userDetails");
 
-      // Reset user context
+      // Reset user context by updating it with an empty object or initial state
       updateUser({});
 
-      // Refresh the page and redirect to login
+      console.log("Logged out successfully!");
+
+      // Refresh the page
       window.location.reload();
-    } catch (err) {
-      console.error("Error during logout:", err);
-
-      // Clear user details and tokens from localStorage in case of error
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("userDetails");
-
-      // Reset user context
-      updateUser({});
-
-      // Refresh the page and redirect to login
-      window.location.reload();
+    } catch (error) {
+      console.error("Error during logout:", error);
     }
   };
 
-  const placeholderText = userDetails?.firstName
-    ? `Find your tribe, ${userDetails.firstName} !`
-    : "Find your tribe !";
+  // Handle API call on search button click
+  const handleApiCall = async () => {
+    try {
+      const payload = { first_name: inputValue };
+      const response = await fetch("https://apis.endsem.com/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        console.log("API call successful");
+      } else {
+        console.error("API call failed");
+      }
+    } catch (error) {
+      console.error("Error during API call:", error);
+    }
+  };
 
   return (
     <div className="homepage-container">
@@ -145,8 +143,17 @@ function Homepage() {
           <b>endsem</b>
         </div>
         <div className="input-box">
-          <input className="input-area" placeholder={placeholderText} />
-          <button type="submit" className="submit-button">
+          <input
+            className="input-area"
+            placeholder={placeholderText}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change
+          />
+          <button
+            type="submit"
+            className="submit-button"
+            onClick={handleApiCall} // Call API on button click
+          >
             <i className="material-icons">search</i>
           </button>
         </div>
