@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
 import "./homepage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext"; // Assuming you have this context to get user details
+import { gql, useApolloClient } from "@apollo/client";
 
 function Homepage() {
   const { userDetails: contextUserDetails, updateUser } = useUser(); // Get user details and updateUser from context
   const [userDetails, setUserDetails] = useState(contextUserDetails); // Local state to manage user details
   const navigate = useNavigate(); // To navigate to different pages
+  const client = useApolloClient(); // Use Apollo Client for GraphQL requests
+
+  // GraphQL logout query
+  const LOGOUT_QUERY = gql`
+    query Query {
+      log_out {
+        message
+        status
+      }
+    }
+  `;
 
   // Check if user is logged in (using context first, fallback to localStorage)
   useEffect(() => {
@@ -17,7 +29,7 @@ function Homepage() {
         setUserDetails(savedUserDetails);
       }
     }
-  }, [contextUserDetails]); // Run this only when contextUserDetails change
+  }, [contextUserDetails]);
 
   // Check if user is logged in and get their firstName
   const isLoggedIn = userDetails && userDetails.firstName;
@@ -25,34 +37,67 @@ function Homepage() {
   // Handle button click (redirect to profile if logged in, otherwise login)
   const handleAuthButtonClick = () => {
     if (isLoggedIn) {
-      // Redirect to the user's profile if logged in
-      navigate("/profile");
+      navigate("/profile"); // Redirect to the user's profile if logged in
     } else {
-      // Redirect to login page if not logged in
-      navigate("/login");
+      navigate("/login"); // Redirect to login page if not logged in
     }
   };
 
-  // Logout functionality
-  const handleLogout = () => {
-    // Clear user details and tokens from localStorage
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("userDetails");
+  // Logout functionality with GraphQL call
+  const handleLogout = async () => {
+    try {
+      // Get access token from localStorage
+      const accessToken = localStorage.getItem("access_token");
 
-    // Reset user context by updating it with an empty object or initial state
-    updateUser({});
+      if (accessToken) {
+        // Call the logout API with the access token
+        const response = await client.query({
+          query: LOGOUT_QUERY,
+          context: {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          },
+        });
 
-    console.log("Logged out successfully!");
+        if (response.data?.log_out?.status) {
+          console.log("Logout successful:", response.data.log_out.message);
+          console.log("Logout successful:", response.data.log_out.status);
+        } else {
+          console.error("Logout failed:", response.data?.log_out?.message);
+        }
+      }
 
-    // Refresh the page
-    window.location.reload();
+      // Clear user details and tokens from localStorage
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("userDetails");
 
-    // Redirect to login page after page reload
+      // Reset user context
+      updateUser({});
+
+      // Refresh the page and redirect to login
+      window.location.reload();
+    } catch (err) {
+      console.error("Error during logout:", err);
+
+      // Clear user details and tokens from localStorage in case of error
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("userDetails");
+
+      // Reset user context
+      updateUser({});
+
+      // Refresh the page and redirect to login
+      window.location.reload();
+    }
   };
+
   const placeholderText = userDetails?.firstName
     ? `Find your tribe, ${userDetails.firstName} !`
     : "Find your tribe !";
+
   return (
     <div className="homepage-container">
       <div className="header">
