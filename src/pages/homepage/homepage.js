@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext"; // Assuming you have this context to get user details
 
 function Homepage() {
-  const { userDetails: contextUserDetails } = useUser(); // Get user details from context
+  const { userDetails: contextUserDetails, updateUser } = useUser(); // Get user details and updateUser from context
   const [userDetails, setUserDetails] = useState(contextUserDetails); // Local state to manage user details
   const navigate = useNavigate(); // To navigate to different pages
 
@@ -21,7 +21,6 @@ function Homepage() {
 
   // Check if user is logged in and get their firstName
   const isLoggedIn = userDetails && userDetails.firstName;
-  console.log("home>", userDetails);
 
   // Handle button click (redirect to profile if logged in, otherwise login)
   const handleAuthButtonClick = () => {
@@ -34,6 +33,26 @@ function Homepage() {
     }
   };
 
+  // Logout functionality
+  const handleLogout = () => {
+    // Clear user details and tokens from localStorage
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("userDetails");
+
+    // Reset user context by updating it with an empty object or initial state
+    updateUser({});
+
+    console.log("Logged out successfully!");
+
+    // Refresh the page
+    window.location.reload();
+
+    // Redirect to login page after page reload
+  };
+  const placeholderText = userDetails?.firstName
+    ? `Find your tribe, ${userDetails.firstName} !`
+    : "Find your tribe !";
   return (
     <div className="homepage-container">
       <div className="header">
@@ -57,13 +76,20 @@ function Homepage() {
             >
               <b>
                 {isLoggedIn
-                  ? `Hello, ${userDetails.firstName} ${userDetails.lastName}`
+                  ? `Salut, ${userDetails.firstName}`
                   : "Login | Join a tribe"}
               </b>
-              <i className="material-icons">
-                {isLoggedIn ? "account_circle" : "login"}
-              </i>
+              <i className="material-icons">{isLoggedIn ? "bolt" : "login"}</i>
             </button>
+            {isLoggedIn && (
+              <button
+                id="pill-btn-logout"
+                className="logout-button"
+                onClick={handleLogout}
+              >
+                Logout <i className="material-icons">logout</i>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -72,7 +98,7 @@ function Homepage() {
           <b>endsem</b>
         </div>
         <div className="input-box">
-          <input className="input-area" placeholder="Find your tribe" />
+          <input className="input-area" placeholder={placeholderText} />
           <button type="submit" className="submit-button">
             <i className="material-icons">search</i>
           </button>

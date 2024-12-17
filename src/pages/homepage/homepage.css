@@ -87,6 +87,33 @@
     padding: 0 10px; /* Optional: Adds space on the left and right of the button */
     text-decoration: none;
 }
+
+#pill-btn-logout {
+    display: flex;
+    background-color:white ;
+    gap: 5px;
+    color: #008cff;
+    height: 41px;
+    width: 120px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    border: 3px solid #008cff; /* Define a transparent border */
+    transition: background 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
+    border-radius: 100px;
+    padding: 0 10px; /* Optional: Adds space on the left and right of the button */
+    text-decoration: none;
+}
+
+#pill-btn-logout:hover {
+    background-color: #008cff; /* Keeps the background white on hover */
+    color:white;
+    border: 3px solid #008cff; /* Add border only on hover */
+    cursor: pointer;
+    text-decoration: none;
+}
+
 #pill-btn-auth b {
     text-decoration: none; /* Remove underline specifically from the <b> tag */
 }
@@ -109,6 +136,7 @@
     cursor: pointer;
     text-decoration: none;
 }
+
 
 #pill-btn-auth:active {
     background-color:  #ff0d0d; /* Keeps the background white on hover */

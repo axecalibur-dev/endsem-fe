@@ -8,7 +8,7 @@ class CommonUtilities {
 
   // Save user details in localStorage
   save_user_details_local = (userDetails) => {
-    localStorage.setItem("user_details", JSON.stringify(userDetails));
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
   };
 
   // Get user details from localStorage
@@ -21,7 +21,7 @@ class CommonUtilities {
   remove_user_data_local = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    localStorage.removeItem("user_details");
+    localStorage.removeItem("userDetails");
   };
 }
 

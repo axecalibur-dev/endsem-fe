@@ -35,9 +35,12 @@ function LoginPage() {
 
   // Check if the user is already logged in
   useEffect(() => {
+    // Check if user is logged in by looking at localStorage items
     const isLoggedIn =
-      localStorage.getItem("access_token") ||
-      localStorage.getItem("userDetails");
+      localStorage.getItem("access_token") &&
+      localStorage.getItem("userDetails") &&
+      JSON.parse(localStorage.getItem("userDetails")); // Parse and check if userDetails is not null or empty
+
     if (isLoggedIn) {
       navigate("/profile"); // Redirect to the profile page if the user is already logged in
     }
@@ -67,20 +70,22 @@ function LoginPage() {
 
         // Save user details in localStorage
         Utils.save_user_details_local({
-          firstName: data.login.data.firstName,
-          lastName: data.login.data.lastName,
-          email: data.login.data.email,
+          firstName: data.login.data[0].firstName,
+          lastName: data.login.data[0].lastName,
+          email: data.login.data[0].email,
+          id: data.login.data[0].id,
         });
 
         // Update user context after successful login
         updateUser({
-          firstName: data.login.data.firstName,
-          lastName: data.login.data.lastName,
-          email: data.login.data.email,
+          firstName: data.login.data[0].firstName,
+          lastName: data.login.data[0].lastName,
+          email: data.login.data[0].email,
+          id: data.login.data[0].id,
         });
 
         console.log("User context updated after login!");
-        navigate("/profile"); // Redirect to profile page after login
+        navigate("/"); // Redirect to profile page after login
       }
     } catch (err) {
       console.error("Login error:", err);

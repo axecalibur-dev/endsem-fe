@@ -56,11 +56,14 @@ function SignupPage() {
 
   // Check if the user is already logged in and redirect to profile
   useEffect(() => {
+    // Check if user is logged in by looking at localStorage items
     const isLoggedIn =
-      localStorage.getItem("access_token") ||
-      localStorage.getItem("userDetails");
+      localStorage.getItem("access_token") &&
+      localStorage.getItem("userDetails") &&
+      JSON.parse(localStorage.getItem("userDetails")); // Parse and check if userDetails is not null or empty
+
     if (isLoggedIn) {
-      navigate("/profile"); // Redirect to profile page if the user is already logged in
+      navigate("/profile"); // Redirect to the profile page if the user is already logged in
     }
   }, [navigate]);
 
@@ -94,20 +97,21 @@ function SignupPage() {
 
         // Save user details in localStorage
         Utils.save_user_details_local({
-          firstName: data.sign_up.data.firstName,
-          lastName: data.sign_up.data.lastName,
-          email: data.sign_up.data.email,
+          firstName: data.sign_up.data[0].firstName,
+          lastName: data.sign_up.data[0].lastName,
+          id: data.sign_up.data[0].id,
         });
 
-        // Update user context after successful signup
+        // Update user context after successful login
         updateUser({
-          firstName: data.sign_up.data.firstName,
-          lastName: data.sign_up.data.lastName,
-          email: data.sign_up.data.email,
+          firstName: data.sign_up.data[0].firstName,
+          lastName: data.sign_up.data[0].lastName,
+          email: data.sign_up.data[0].email,
+          id: data.sign_up.data[0].id,
         });
 
         console.log("User context updated after signup!");
-        navigate("/profile"); // Redirect to profile page after signup
+        navigate("/"); // Redirect to profile page after signup
       }
     } catch (err) {
       console.error("Signup error:", err);
