@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import "./homepage.css";
+import "./searchResults.css";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext";
 
-function Homepage() {
+function SearchResultsPage() {
   const { userDetails: contextUserDetails, updateUser } = useUser(); // Get user details and updateUser from context
   const [userDetails, setUserDetails] = useState(contextUserDetails); // Local state to manage user details
   const [inputValue, setInputValue] = useState(""); // State for the input value
@@ -97,24 +97,33 @@ function Homepage() {
   };
 
   return (
-    <div className="homepage-container">
-      <div className="header">
-        <div className="navbar">
-          <div className="navbar-left">
-            <button id="pill-btn-logo" className="logo-button">
+    <div className="search-results-homepage-container">
+      <div className="search-results-header">
+        <div className="search-results-navbar">
+          <div className="search-results-navbar-left">
+            <button
+              id="search-results-pill-btn-logo"
+              className="search-results-logo-button"
+            >
               endsem
             </button>
           </div>
-          <div className="navbar-right">
-            <button id="pill-btn" className="about-button">
-              <b>About</b>
-            </button>
-            <button id="pill-btn" className="contact-button">
-              <b>Contact</b>
+          <div className="search-results-navbar-right">
+            <button
+              id="search-results-pill-btn"
+              className="search-results-about-button"
+            >
+              <b>Home</b>
             </button>
             <button
-              id="pill-btn-auth"
-              className="auth-button"
+              id="search-results-pill-btn"
+              className="search-results-contact-button"
+            >
+              <b>About</b>
+            </button>
+            <button
+              id="search-results-pill-btn-auth"
+              className="search-results-auth-button"
               onClick={handleAuthButtonClick}
             >
               <b>
@@ -128,8 +137,8 @@ function Homepage() {
             </button>
             {isLoggedIn && (
               <button
-                id="pill-btn-logout"
-                className="logout-button"
+                id="search-results-pill-btn-logout"
+                className="search-results-logout-button"
                 onClick={handleLogout}
               >
                 Logout <i className="material-icons">logout</i>
@@ -138,10 +147,7 @@ function Homepage() {
           </div>
         </div>
       </div>
-      <div className="main">
-        <div className="heading">
-          <b>endsem</b>
-        </div>
+      <div className="search-results-main-section">
         <div className="input-box">
           <input
             className="input-area"
@@ -158,8 +164,9 @@ function Homepage() {
           </button>
         </div>
       </div>
+      <div className="list-of-results">RESUTLs</div>
     </div>
   );
 }
 
-export default Homepage;
+export default SearchResultsPage;

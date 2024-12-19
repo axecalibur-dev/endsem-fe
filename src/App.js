@@ -6,6 +6,7 @@ import LoginPage from "./pages/login/login"; // Your login page component
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import Signup from "./pages/signup/signup";
 import { UserProvider } from "./context/userContext";
+import SearchResults from "./pages/search/searchResults";
 
 // Create Apollo Client instance
 const client = new ApolloClient({
@@ -24,6 +25,7 @@ function App() {
               <Route path="/" element={<Homepage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/discover" element={<SearchResults />} />
             </Routes>
           </div>
         </Router>

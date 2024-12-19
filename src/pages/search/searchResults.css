@@ -1,0 +1,319 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* Set search-results-homepage-container as a grid layout */
+.search-results-homepage-container {
+    display: grid;
+    grid-template-rows: auto auto 1fr; /* First and second rows auto-sized, third row takes remaining space */
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Make the header use the full width of the page */
+.search-results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+}
+
+/* Make the navbar also a flex container */
+.search-results-navbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Align buttons in navbar-right to the right side */
+.search-results-navbar-right {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    gap: 20px;
+    padding-right: 20px;
+}
+
+.search-results-navbar-left {
+    display: flex;
+    justify-content: space-between;
+    margin-right: auto;
+    gap: 20px;
+    padding-left: 30px;
+}
+
+/* Style for the navbar buttons */
+
+#search-results-pill-btn {
+    background-color: white;
+    height: 41px;
+    width: 95px;
+    border: 2px solid transparent;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    font-size: 15px;
+    border-radius: 100px;
+    text-decoration: none;
+    text-align: center;
+}
+
+#search-results-pill-btn:hover {
+    background-color: white;
+    border: 3px solid #ff0000;
+    cursor: pointer;
+}
+
+#search-results-pill-btn:active {
+    background-color: #ff0000;
+    color: white;
+    cursor: pointer;
+}
+
+#search-results-pill-btn-auth {
+    display: flex;
+    background-color: #ff0000;
+    color: white;
+    height: 41px;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    border: 2px solid transparent;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    border-radius: 100px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+#search-results-pill-btn-logout {
+    display: flex;
+    background-color: white;
+    gap: 5px;
+    color: #008cff;
+    height: 41px;
+    width: 120px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    border: 3px solid #008cff;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    border-radius: 100px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+#search-results-pill-btn-logout:hover {
+    background-color: #008cff;
+    color: white;
+    cursor: pointer;
+}
+
+#search-results-pill-btn-auth b,
+#search-results-pill-btn-auth i,
+#search-results-pill-btn-auth i.material-icons {
+    text-decoration: none;
+}
+
+#search-results-pill-btn-auth i.material-icons {
+    margin-top: 1px;
+    margin-left: 5px;
+    font-size: 20px;
+}
+
+#search-results-pill-btn-auth:hover {
+    background-color: white;
+    color: #ff0000;
+    border: 3px solid #ff0d0d;
+    cursor: pointer;
+}
+
+#search-results-pill-btn-auth:active {
+    background-color: #ff0d0d;
+    color: white;
+    cursor: pointer;
+}
+
+#search-results-pill-btn-logo {
+    background-color: #ff0000;
+    color: white;
+    height: 41px;
+    width: 95px;
+    border: none;
+    border-radius: 100px;
+    font-weight: bold;
+    font-size: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#search-results-pill-btn-logo:hover {
+    transform: scale(1.26);
+    cursor: pointer;
+}
+
+/* Main */
+.search-results-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.search-results-heading {
+    color: white;
+    display: flex;
+    font-size: 130px;
+    margin-bottom: 20px;
+}
+
+.search-results-main .search-results-input-box {
+    display: flex;
+    align-items: center;
+    width: 800px;
+    position: relative;
+}
+
+.search-results-main .search-results-input-box .search-results-input-area {
+    flex-grow: 1;
+    height: 90px;
+    border-radius: 100px;
+    outline: none;
+    border: 2px solid transparent;
+    font-family: 'Quicksand', serif;
+    font-weight: bold;
+    color: black;
+    font-size: 28px;
+    padding-left: 20px;
+    transition: border 0.2s ease;
+}
+
+.search-results-main .search-results-input-box .search-results-input-area::placeholder {
+    color: black;
+}
+
+.search-results-submit-button {
+    position: absolute;
+    right: 10px;
+    height: 60px;
+    width: 60px;
+    background-color: #ff0000;
+    color: white;
+    border: 2px solid transparent;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.search-results-submit-button:hover {
+    background-color: white;
+    color: black;
+    border: 3px solid #ff0000;
+    cursor: pointer;
+}
+
+
+/* This container will ensure the search bar div is centered in the viewport */
+.search-results-main-section {
+    display: flex;
+    justify-content: center;  /* Align horizontally at the center */
+    align-items: center;      /* Align vertically at the center */
+    background-image: url("../../../public/media/search.jpg");  /* Path to your image */
+    background-size: cover;         /* Ensures the image covers the whole page */
+    background-position: center;    /* Centers the image */
+    background-repeat: no-repeat;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.search-results-search-bar {
+    display: flex;
+}
+
+.search-results-search-bar input {
+    height: 70px;
+    width: 900px;
+    border-radius: 100px;
+    outline: none;
+    border: 2px solid transparent;         /* Initial border */
+    font-family: 'Quicksand', serif;
+    font-weight: bold;
+    color: black;
+    font-size: 28px;
+    padding-left: 20px;
+    transition: border 0.2s ease;
+}
+
+.search-results-search-bar input::placeholder {
+    color: black;  /* Set the placeholder text color to black */
+}
+.search-results-search-bar button {
+    height: 70px;
+    width: 70px;
+    vertical-align: center;
+    outline: none;
+    border: none;
+    margin-left: 10px;
+    border-radius: 100px;
+    background-color: red;
+
+}
+
+.search-results-main-section .input-box {
+    display: flex;
+    align-items: center;
+    width: 800px; /* Set a width for the entire container */
+    position: relative; /* Allows the button to be positioned inside the container */
+}
+
+.search-results-main-section .input-box .input-area {
+    flex-grow: 1;                          /* Allow the input to take up available space */
+    height: 90px;
+    border-radius: 100px;
+    outline: none;
+    border: 2px solid transparent;         /* Initial border */
+    font-family: 'Quicksand', serif;
+    font-weight: bold;
+    color: black;
+    font-size: 28px;
+    padding-left: 20px;
+    transition: border 0.2s ease;          /* Add smooth transition for the border */
+}
+
+/*.main .input-box .input-area:hover {*/
+/*    border: 4px solid red;                 !* Change border on hover *!*/
+/*}*/
+
+
+.search-results-main-section .input-box .input-area::placeholder {
+    color: black;  /* Set the placeholder text color to black */
+}
+
+.submit-button {
+    position: absolute; /* Position button inside the input box */
+    right: 10px; /* Position it on the right side */
+    height: 60px;
+    width: 60px;
+    background-color: #00bef1;
+    color: white;
+    border: 2px solid transparent;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out;
+    border-radius: 100px;
+    display: flex; /* Align icon in the center */
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.submit-button:hover {
+    background-color: white;
+    color: black;
+    border: 3px solid #00bef1;
+    cursor: pointer;
+}
