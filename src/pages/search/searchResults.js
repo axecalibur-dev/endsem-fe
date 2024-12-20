@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./searchResults.css";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../context/userContext";
+import profileImage from "./profile.png";
 
 function SearchResultsPage() {
-  const { userDetails: contextUserDetails, updateUser } = useUser(); // Get user details and updateUser from context
-  const [userDetails, setUserDetails] = useState(contextUserDetails); // Local state to manage user details
-  const [inputValue, setInputValue] = useState(""); // State for the input value
-  const navigate = useNavigate(); // To navigate to different pages
+  const [userDetails, setUserDetails] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [followingUsers, setFollowingUsers] = useState([]); // Track followed users
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
+  const [loginMessage, setLoginMessage] = useState(""); // Track login message
+  const navigate = useNavigate();
 
-  // Check if user is logged in (using context first, fallback to localStorage)
   useEffect(() => {
-    if (!contextUserDetails) {
-      const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
-      if (savedUserDetails) {
-        setUserDetails(savedUserDetails);
-      }
+    const accessToken = localStorage.getItem("access_token");
+    const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
+
+    if (accessToken && savedUserDetails) {
+      setUserDetails(savedUserDetails);
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
-  }, [contextUserDetails]);
+  }, []);
 
-  // Check if user is logged in and get their firstName
-  const isLoggedIn = userDetails && userDetails.firstName;
-
-  // Placeholder text logic
   const placeholderText = userDetails?.firstName
     ? `Find your tribe, ${userDetails.firstName} !`
     : "Find your tribe !";
 
-  // Handle login button click
   const handleAuthButtonClick = () => {
     if (isLoggedIn) {
       navigate("/profile");
@@ -36,10 +36,8 @@ function SearchResultsPage() {
     }
   };
 
-  // Logout functionality
   const handleLogout = async () => {
     try {
-      // Make API call to logout
       const token = localStorage.getItem("access_token");
       await fetch("https://apis.endsem.com/graphql", {
         method: "POST",
@@ -57,42 +55,93 @@ function SearchResultsPage() {
         }),
       });
 
-      // Clear user details and tokens from localStorage
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("userDetails");
 
-      // Reset user context by updating it with an empty object or initial state
-      updateUser({});
-
       console.log("Logged out successfully!");
-
-      // Refresh the page
       window.location.reload();
     } catch (error) {
       console.error("Error during logout:", error);
     }
   };
 
-  // Handle API call on search button click
   const handleApiCall = async () => {
     try {
       const payload = { first_name: inputValue };
+      const accessToken = localStorage.getItem("access_token"); // Get token from localStorage
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      if (accessToken) {
+        headers["Authorization"] = `${accessToken}`; // Add Authorization header if logged in
+      }
+
       const response = await fetch("https://apis.endsem.com/search", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify(payload),
       });
 
       if (response.ok) {
+        const data = await response.json();
+        setSearchResults(Array.isArray(data.result) ? data.result : []);
         console.log("API call successful");
       } else {
         console.error("API call failed");
       }
     } catch (error) {
       console.error("Error during API call:", error);
+    }
+  };
+
+  const handleFollow = async (userId) => {
+    if (!isLoggedIn) {
+      // Prevent the follow button from being clicked
+      setLoginMessage("You are not logged in. Please log in to follow users.");
+      return; // Prevent API call
+    }
+
+    setLoginMessage(""); // Clear the login message if logged in
+
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await fetch("https://apis.endsem.com/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify({
+          query: `mutation {
+            follow_someone(input: {
+              now_following_id: "${userId}"
+            }) {
+              message
+              status
+              meta
+            }
+          }`,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Follow API response:", data);
+
+        // Check if the message in the response indicates a successful follow
+        if (
+          data?.data?.follow_someone?.message ===
+          "You are now following this person."
+        ) {
+          setFollowingUsers((prev) => [...prev, userId]);
+        }
+      } else {
+        console.error("Follow API call failed");
+      }
+    } catch (error) {
+      console.error("Error during follow API call:", error);
     }
   };
 
@@ -147,24 +196,88 @@ function SearchResultsPage() {
           </div>
         </div>
       </div>
+
       <div className="search-results-main-section">
         <div className="input-box">
           <input
             className="input-area"
             placeholder={placeholderText}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change
+            onChange={(e) => setInputValue(e.target.value)}
           />
           <button
             type="submit"
             className="submit-button"
-            onClick={handleApiCall} // Call API on button click
+            onClick={handleApiCall}
           >
             <i className="material-icons">search</i>
           </button>
         </div>
       </div>
-      <div className="list-of-results">RESUTLs</div>
+
+      {/* Show login message if trying to follow while not logged in */}
+      {loginMessage && (
+        <div className="login-message">
+          <p>{loginMessage}</p>
+        </div>
+      )}
+
+      <div className="list-of-results">
+        <div className="list-main">
+          {searchResults.length === 0 ? (
+            <div className="no-results-message">No results found</div>
+          ) : (
+            searchResults.map((item, index) => (
+              <div className="search-card" key={index}>
+                <div className="partition-left">
+                  <img src={item.profile_picture} alt="profile" />
+                  <div className="info">
+                    <div className="info-text">
+                      {item.first_name} {item.last_name}
+                    </div>
+                    <div className="info-text-extra">
+                      @{item.user_name} <b> | </b> Lives in Jaipur, Rajasthan
+                      <b> | </b>
+                      FALTU University <b> | </b> {item.year} 2nd Year, B.Tech
+                      in CSE
+                    </div>
+                  </div>
+                </div>
+                <div className="partition-right">
+                  {/* Disable follow button if not logged in */}
+                  <button
+                    className={`follow-button ${isLoggedIn ? (followingUsers.includes(item.user_id) ? "following" : "") : "not-logged-in"}`}
+                    onClick={() => {
+                      if (!isLoggedIn) {
+                        // Redirect to login page if not logged in
+                        navigate("/login");
+                      } else {
+                        // Proceed with follow action if logged in
+                        handleFollow(item.user_id);
+                      }
+                    }}
+                    disabled={followingUsers.includes(item.user_id)} // Disable button if already following
+                  >
+                    {isLoggedIn
+                      ? followingUsers.includes(item.user_id)
+                        ? "Following"
+                        : "Follow"
+                      : "Login to Follow"}
+                    <i className="material-icons">
+                      {isLoggedIn
+                        ? followingUsers.includes(item.user_id)
+                          ? "check_circle" // "check" icon for "Following"
+                          : "person_add" // "person_add" icon for "Follow"
+                        : "login"}{" "}
+                      {/* "key" icon for "Login to Follow" */}
+                    </i>
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
     </div>
   );
 }

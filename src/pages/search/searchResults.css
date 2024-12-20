@@ -317,3 +317,120 @@
     border: 3px solid #00bef1;
     cursor: pointer;
 }
+
+
+.list-of-results {
+    display: flex;
+    flex-direction: column; /* Stack the cards vertically */
+    gap: 10px;
+}
+
+.list-left {
+    display: flex;
+    flex-direction: column;
+    border: 5px solid black;
+    background-color: #f1c40f; /* Visual color for the left column */
+}
+
+.list-main {
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+}
+
+.list-right {
+    display: flex;
+    flex-direction: column;
+    border: 5px solid black;
+    background-color: #e74c3c; /* Visual color for the right column */
+}
+
+.search-card {
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* This keeps the content inside each card in two columns */
+    gap: 10px;
+    height: 130px;
+    width: 100%; /* Ensure the cards stretch the full width of the container */
+}
+
+.partition-left {
+    margin-top: 10px;
+    margin-left: 80px;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    height: 99px;
+    width: 1100px;
+}
+
+.partition-right {
+    margin-top: 10px;
+    display: flex;
+    margin-right: 10px;
+    flex-direction: column;
+    height: 99px;
+    width: 350px;
+    margin-left: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.follow-button {
+    display: flex;
+    font-family: 'Quicksand', serif;
+    font-weight: bold;
+    justify-content: center;
+    font-size: 20px;
+    gap: 10px;
+    align-items: center;
+    width: 250px;
+    border-radius: 100px;
+    border: none;
+    color:white;
+    background-color: #2e85cc;
+    height: 50px;
+    text-align: center;
+}
+
+.follow-button.following {
+    background-color: #2cb92c;
+}
+
+
+.follow-button.not-logged-in {
+    background-color: #d53e3e; /* Red color when not logged in */
+}
+
+
+.follow-button:hover {
+    background-color:  white;
+    color: #2e85cc;
+    cursor: pointer;
+    border: 3px solid #2e85cc;
+}
+
+.partition-left img {
+    height: 88px;
+    border-radius: 100px;
+    width: 88px;
+}
+
+.info-text {
+    display: flex;
+    color: #2e85cc;
+    font-weight: bold;
+    font-size: 35px;
+    flex-direction: row;
+}
+
+
+.info-text-extra {
+    color: #2e85cc;
+}
+
+.list-right {
+    height: 100px;
+}
