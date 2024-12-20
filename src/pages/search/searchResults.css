@@ -1,4 +1,5 @@
 * {
+    font-family: 'Quicksand','serif';
     padding: 0;
     margin: 0;
 }
@@ -294,7 +295,7 @@
     color: black;  /* Set the placeholder text color to black */
 }
 
-.submit-button {
+.search-submit-button {
     position: absolute; /* Position button inside the input box */
     right: 10px; /* Position it on the right side */
     height: 60px;
@@ -311,7 +312,7 @@
     margin-right: 10px;
 }
 
-.submit-button:hover {
+.search-submit-button:hover {
     background-color: white;
     color: black;
     border: 3px solid #00bef1;

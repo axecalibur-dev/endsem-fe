@@ -207,7 +207,7 @@ function SearchResultsPage() {
           />
           <button
             type="submit"
-            className="submit-button"
+            className="search-submit-button"
             onClick={handleApiCall}
           >
             <i className="material-icons">search</i>

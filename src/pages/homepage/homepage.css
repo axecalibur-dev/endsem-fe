@@ -51,6 +51,7 @@
 
 #pill-btn {
     background-color: white;
+    font-family: 'Quicksand','serif';
     height: 41px; /* Fixed height */
     width: 95px;  /* Fixed width */
     border: 2px solid transparent; /* Define a transparent border */
@@ -63,18 +64,19 @@
 
 #pill-btn:hover {
     background-color: white; /* Keeps the background white on hover */
-    border: 3px solid #ff0000;; /* Add border only on hover */
+    border: 3px solid #c91847;; /* Add border only on hover */
     cursor: pointer;
 }
 #pill-btn:active {
-    background-color:  #ff0000;; /* Keeps the background white on hover */
+    background-color:  #c91847;; /* Keeps the background white on hover */
     color: white;
     cursor: pointer;
 }
 
 #pill-btn-auth {
     display: flex;
-    background-color: #ff0000;
+    background-color: #c91847;
+    font-family: 'Quicksand','serif';
     color: white;
     height: 41px;
     width: 200px;
@@ -90,16 +92,17 @@
 
 #pill-btn-logout {
     display: flex;
+    font-family: 'Quicksand','serif';
     background-color:white ;
     gap: 5px;
-    color: #008cff;
+    color: #188ac9;
     height: 41px;
     width: 120px;
     font-weight: bold;
     justify-content: center;
     align-items: center;
     font-size: 15px;
-    border: 3px solid #008cff; /* Define a transparent border */
+    border: 3px solid #188ac9; /* Define a transparent border */
     transition: background 0.3s ease, border-color 0.3s ease; /* Add transition for border color */
     border-radius: 100px;
     padding: 0 10px; /* Optional: Adds space on the left and right of the button */
@@ -107,9 +110,9 @@
 }
 
 #pill-btn-logout:hover {
-    background-color: #008cff; /* Keeps the background white on hover */
+    background-color: #188ac9;/* Keeps the background white on hover */
     color:white;
-    border: 3px solid #008cff; /* Add border only on hover */
+    border: 3px solid #188ac9; /* Add border only on hover */
     cursor: pointer;
     text-decoration: none;
 }
@@ -131,15 +134,15 @@
 
 #pill-btn-auth:hover {
     background-color: white;; /* Keeps the background white on hover */
-    color:#ff0000;
-    border: 3px solid #ff0d0d; /* Add border only on hover */
+    color:#c91847;
+    border: 3px solid#c91847; /* Add border only on hover */
     cursor: pointer;
     text-decoration: none;
 }
 
 
 #pill-btn-auth:active {
-    background-color:  #ff0d0d; /* Keeps the background white on hover */
+    background-color:  #c91847 ;/* Keeps the background white on hover */
     color: white;
     cursor: pointer;
 }
@@ -147,7 +150,8 @@
 
 
 #pill-btn-logo {
-    background-color: #ff0000;
+    background-color: #c91847;
+    font-family: 'Quicksand','serif';
     color: white;
     height: 41px; /* Initial height */
     width: 95px;  /* Initial width */
@@ -159,11 +163,12 @@
 }
 
 #pill-btn-logo:hover {
-    background-color: #ff0000;;;
+    background-color: #c91847;;;
     transform: scale(1.26); /* Scale the button (1.26 is ~60px/41px and ~120px/95px) */
     color: white;
     cursor: pointer;
 }
+
 
 /* main */
 
@@ -177,7 +182,7 @@
 
 /* Example of centering child elements inside .main */
 .heading {
-    color: white;
+    color: #c91847;
     display: flex;
     font-size: 130px;
     margin-bottom: 20px;
@@ -218,7 +223,7 @@
     right: 10px; /* Position it on the right side */
     height: 60px;
     width: 60px;
-    background-color: #ff0000;
+    background-color: #c91847;
     color: white;
     border: 2px solid transparent;
     font-weight: bold;
@@ -233,6 +238,6 @@
 .submit-button:hover {
     background-color: white;
     color: black;
-    border: 3px solid #ff0000;
+    border: 3px solid #c91847;
     cursor: pointer;
 }
