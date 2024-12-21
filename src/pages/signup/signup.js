@@ -14,18 +14,20 @@ const SIGNUP_MUTATION = gql`
     $firstName: String!
     $lastName: String!
     $password: String!
-    $phone: String!
     $email: String!
     $username_handle: String!
+    $university: String!
+    $discipline: String!
   ) {
     sign_up(
       input: {
         firstName: $firstName
         lastName: $lastName
         password: $password
-        phone: $phone
         email: $email
         username_handle: $username_handle
+        university: $university
+        discipline: $discipline
       }
     ) {
       message
@@ -44,11 +46,14 @@ const SIGNUP_MUTATION = gql`
 
 function SignupPage() {
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  // const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
+
+  const [university, setUniversity] = useState("");
+  const [discipline, setDiscipline] = useState("");
 
   const navigate = useNavigate();
   const { userDetails, updateUser } = useUser(); // Access user context
@@ -82,9 +87,11 @@ function SignupPage() {
           firstName: FirstName,
           lastName: LastName,
           password: password,
-          phone: phone.trim(),
+          // phone: phone.trim(),
           email: email,
           username_handle: username,
+          university: university,
+          discipline: discipline,
         },
       });
 
@@ -120,11 +127,13 @@ function SignupPage() {
 
   const handleReset = () => {
     setEmail("");
-    setPhone("");
+    // setPhone("");
     setUsername("");
     setFirstName("");
     setLastName("");
     setPassword("");
+    setUniversity("");
+    setDiscipline("");
   };
 
   return (
@@ -166,11 +175,25 @@ function SignupPage() {
             />
             <input
               className="signup-username"
-              placeholder="Enter phone"
+              placeholder="Enter university name"
               type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={university}
+              onChange={(e) => setUniversity(e.target.value)}
             />
+            <input
+              className="signup-username"
+              placeholder="Enter discipline and year"
+              type="text"
+              value={discipline}
+              onChange={(e) => setDiscipline(e.target.value)}
+            />
+            {/*<input*/}
+            {/*  className="signup-username"*/}
+            {/*  placeholder="Enter phone"*/}
+            {/*  type="text"*/}
+            {/*  value={phone}*/}
+            {/*  onChange={(e) => setPhone(e.target.value)}*/}
+            {/*/>*/}
             <input
               className="signup-username"
               placeholder="Select a username"

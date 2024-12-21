@@ -41,7 +41,7 @@ function Homepage() {
     try {
       // Make API call to logout
       const token = localStorage.getItem("access_token");
-      await fetch("https://apis.endsem.com/graphql", {
+      await fetch("https://apis.endsem.com/graphql/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +123,7 @@ function Homepage() {
                   : "Login | Join a tribe"}
               </b>
               <i className="material-icons">
-                {isLoggedIn ? "favorite" : "login"}
+                {isLoggedIn ? "person_4" : "login"}
               </i>
             </button>
             {isLoggedIn && (

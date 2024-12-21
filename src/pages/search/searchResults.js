@@ -39,7 +39,7 @@ function SearchResultsPage() {
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch("https://apis.endsem.com/graphql", {
+      await fetch("https://apis.endsem.com/graphql/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -107,7 +107,7 @@ function SearchResultsPage() {
 
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch("https://apis.endsem.com/graphql", {
+      const response = await fetch("https://apis.endsem.com/graphql/api", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -238,8 +238,7 @@ function SearchResultsPage() {
                     <div className="info-text-extra">
                       @{item.user_name} <b> | </b> Lives in Jaipur, Rajasthan
                       <b> | </b>
-                      FALTU University <b> | </b> {item.year} 2nd Year, B.Tech
-                      in CSE
+                      {item.university} <b> | </b> {item.discipline}
                     </div>
                   </div>
                 </div>

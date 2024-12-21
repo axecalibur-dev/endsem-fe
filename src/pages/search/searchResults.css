@@ -425,11 +425,13 @@
     font-weight: bold;
     font-size: 35px;
     flex-direction: row;
+    text-transform: capitalize;
 }
 
 
 .info-text-extra {
-    color: #2e85cc;
+    color: black;
+    font-weight: bold;
 }
 
 .list-right {

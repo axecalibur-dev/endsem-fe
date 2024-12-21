@@ -203,7 +203,7 @@
     border: 2px solid transparent;         /* Initial border */
     font-family: 'Quicksand', serif;
     font-weight: bold;
-    color: black;
+    color: #75797a;
     font-size: 28px;
     padding-left: 20px;
     transition: border 0.2s ease;          /* Add smooth transition for the border */
@@ -215,7 +215,7 @@
 
 
 .main .input-box .input-area::placeholder {
-    color: black;  /* Set the placeholder text color to black */
+    color: #75797a;  /* Set the placeholder text color to black */
 }
 
 .submit-button {
