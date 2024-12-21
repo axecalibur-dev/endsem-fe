@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./searchResults.css";
 import { Link, useNavigate } from "react-router-dom";
 import profileImage from "./profile.png";
+import ServiceUtilities from "../../utils/servics_utilities/service_utilities";
+const Service = new ServiceUtilities();
 
 function SearchResultsPage() {
   const [userDetails, setUserDetails] = useState(null);
@@ -55,11 +57,8 @@ function SearchResultsPage() {
         }),
       });
 
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("userDetails");
-
-      console.log("Logged out successfully!");
+      await Service.clean_local_storage();
+      await Service.clean_user_context_post_logout();
       window.location.reload();
     } catch (error) {
       console.error("Error during logout:", error);

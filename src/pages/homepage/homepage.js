@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./homepage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext";
+import ServiceUtilities from "../../utils/servics_utilities/service_utilities";
+const Service = new ServiceUtilities();
 
 function Homepage() {
   const { userDetails: contextUserDetails, updateUser } = useUser(); // Get user details and updateUser from context
@@ -21,13 +23,6 @@ function Homepage() {
 
   // Check if user is logged in and get their firstName
   const isLoggedIn = userDetails && userDetails.firstName;
-
-  // Placeholder text logic
-  const placeholderText = userDetails?.firstName
-    ? `Find your tribe, ${userDetails.firstName} !`
-    : "Find your tribe !";
-
-  // Handle login button click
   const handleAuthButtonClick = () => {
     if (isLoggedIn) {
       navigate("/profile");
@@ -56,18 +51,9 @@ function Homepage() {
           }`,
         }),
       });
-
       // Clear user details and tokens from localStorage
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("userDetails");
-
-      // Reset user context by updating it with an empty object or initial state
-      updateUser({});
-
-      console.log("Logged out successfully!");
-
-      // Refresh the page
+      await Service.clean_local_storage();
+      await Service.clean_user_context_post_logout();
       window.location.reload();
     } catch (error) {
       console.error("Error during logout:", error);
@@ -75,26 +61,26 @@ function Homepage() {
   };
 
   // Handle API call on search button click
-  const handleApiCall = async () => {
-    try {
-      const payload = { first_name: inputValue };
-      const response = await fetch("https://apis.endsem.com/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        console.log("API call successful");
-      } else {
-        console.error("API call failed");
-      }
-    } catch (error) {
-      console.error("Error during API call:", error);
-    }
-  };
+  // const handleApiCall = async () => {
+  //   try {
+  //     const payload = { first_name: inputValue };
+  //     const response = await fetch("https://apis.endsem.com/search", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+  //
+  //     if (response.ok) {
+  //       console.log("API call successful");
+  //     } else {
+  //       console.error("API call failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during API call:", error);
+  //   }
+  // };
 
   return (
     <div className="homepage-container">
