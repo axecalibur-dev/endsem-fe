@@ -3,6 +3,7 @@ import "./searchResults.css";
 import { Link, useNavigate } from "react-router-dom";
 import profileImage from "./profile.png";
 import ServiceUtilities from "../../utils/servics_utilities/service_utilities";
+import { useUser } from "../../context/userContext";
 const Service = new ServiceUtilities();
 
 function SearchResultsPage() {
@@ -13,7 +14,7 @@ function SearchResultsPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
   const [loginMessage, setLoginMessage] = useState(""); // Track login message
   const navigate = useNavigate();
-
+  const { userDetails: contextUserDetails, updateUser } = useUser();
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
     const savedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -58,7 +59,9 @@ function SearchResultsPage() {
       });
 
       await Service.clean_local_storage();
-      await Service.clean_user_context_post_logout();
+
+      updateUser({});
+      console.log("POP");
       window.location.reload();
     } catch (error) {
       console.error("Error during logout:", error);

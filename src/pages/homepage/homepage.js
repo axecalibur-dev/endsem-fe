@@ -53,7 +53,7 @@ function Homepage() {
       });
       // Clear user details and tokens from localStorage
       await Service.clean_local_storage();
-      await Service.clean_user_context_post_logout();
+      updateUser({});
       window.location.reload();
     } catch (error) {
       console.error("Error during logout:", error);
