@@ -148,7 +148,7 @@ function SignupPage() {
       <div className="signup-content">
         <div className="signup-form">
           <div className="signup-label">
-            Join endsem <i className="material-icons">how_to_reg</i>
+            Join endsem <i className="material-icons">bolt</i>
           </div>
 
           <form onSubmit={handleSubmit}>

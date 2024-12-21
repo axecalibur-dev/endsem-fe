@@ -143,7 +143,6 @@ function Homepage() {
           <b>endsem</b>
         </div>
         <div className="punch-line">/find your tribe !/</div>
-        {/*<div className="punch-line">Find your tribe !</div>*/}
         <div className="input-box">
           {/*<input*/}
           {/*  className="input-area"*/}
@@ -159,16 +158,19 @@ function Homepage() {
           {/*  <i className="material-icons">search</i>*/}
           {/*</button>*/}
           <Link to="/signup" className="Link-style">
-            ><button className="join-tribe">Join endsem</button>
+            <button className="join-tribe">Join endsem</button>
           </Link>
           <Link to="/login" className="Link-style">
-            ><button className="login-tribe">Login to endsem</button>
+            <button className="login-tribe">Login to endsem</button>
           </Link>
           <Link to="/discover" className="Link-style">
-            ><button className="find-tribe">Discover</button>
+            <button className="find-tribe">Discover</button>
           </Link>
           <Link to="/register-varsity" className="Link-style">
-            ><button className="register-varsity">Register your varsity</button>
+            <button className="register-varsity">Register your varsity</button>
+          </Link>
+          <Link to="/popular" className="Link-style">
+            <button className="popular-tribes">Trending tribes</button>
           </Link>
         </div>
       </div>

@@ -273,7 +273,7 @@
 
 .login-tribe {
     background-color: white;
-    color: #c91847;
+    color: #188ac9;
     height: 50px;
     font-weight: bold;
     font-size: 20px;
@@ -307,6 +307,23 @@
 
 .register-varsity {
     background-color: white;
+    color:#188ac9;
+    height: 50px;
+    font-weight: bold;
+    font-size: 20px;
+    width: 300px;
+    outline: none;
+    border: none;
+    border-radius: 100px;
+    display: flex;
+    align-items: center; /* Vertically center the text and icon */
+    justify-content: center; /* Horizontally center the text and icon */
+    gap: 10px; /* Optional: Add space between text and icon */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Smooth transition for all properties */
+}
+
+.popular-tribes {
+    background-color: white;
     color: #c91847;
     height: 50px;
     font-weight: bold;
@@ -322,13 +339,33 @@
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Smooth transition for all properties */
 }
 
-
-.join-tribe:hover,
-.login-tribe:hover,
-.find-tribe:hover,
-.register-varsity:hover {
+.join-tribe:hover {
     cursor: pointer;
     background-color: #c91847;
+    color: white;
+    transform: scale(1.5); /* Slightly increase size */
+}
+.popular-tribes:hover {
+    cursor: pointer;
+    background-color: #c91847;
+    color: white;
+    transform: scale(1.5); /* Slightly increase size */
+}
+.login-tribe:hover {
+    cursor: pointer;
+    background-color: #188ac9;
+    color: white;
+    transform: scale(1.5); /* Slightly increase size */
+}
+.find-tribe:hover {
+    cursor: pointer;
+    background-color: #c91847;
+    color: white;
+    transform: scale(1.5); /* Slightly increase size */
+}
+.register-varsity:hover {
+    cursor: pointer;
+    background-color: #188ac9;
     color: white;
     transform: scale(1.5); /* Slightly increase size */
 }
