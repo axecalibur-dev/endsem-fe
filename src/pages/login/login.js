@@ -101,7 +101,7 @@ function LoginPage() {
   return (
     <div className="login-container">
       <div className="navbar-login">
-        <Link to="/">
+        <Link to="/" className="Link-style">
           <button className="logo">
             <i className="material-icons">arrow_back</i> Home
           </button>

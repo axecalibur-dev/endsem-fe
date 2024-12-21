@@ -139,8 +139,8 @@ function SignupPage() {
   return (
     <div className="signup-container">
       <div className="signup-navbar-login">
-        <Link to="/">
-          <button className="signup-logo">
+        <Link to="/" className="Link-style">
+          <button className="logo">
             <i className="material-icons">arrow_back</i> Home
           </button>
         </Link>

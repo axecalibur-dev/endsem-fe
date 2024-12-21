@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./searchResults.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import profileImage from "./profile.png";
 
 function SearchResultsPage() {
@@ -150,12 +150,14 @@ function SearchResultsPage() {
       <div className="search-results-header">
         <div className="search-results-navbar">
           <div className="search-results-navbar-left">
-            <button
-              id="search-results-pill-btn-logo"
-              className="search-results-logo-button"
-            >
-              endsem
-            </button>
+            <Link to="/">
+              <button
+                id="search-results-pill-btn-logo"
+                className="search-results-logo-button"
+              >
+                endsem
+              </button>
+            </Link>
           </div>
           <div className="search-results-navbar-right">
             <button
@@ -225,7 +227,9 @@ function SearchResultsPage() {
       <div className="list-of-results">
         <div className="list-main">
           {searchResults.length === 0 ? (
-            <div className="no-results-message">No results found</div>
+            <div className="no-results-message">
+              Search for your favourite tribes or tribesmen !{" "}
+            </div>
           ) : (
             searchResults.map((item, index) => (
               <div className="search-card" key={index}>

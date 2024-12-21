@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./homepage.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext";
 
 function Homepage() {
@@ -142,20 +142,34 @@ function Homepage() {
         <div className="heading">
           <b>endsem</b>
         </div>
+        <div className="punch-line">/find your tribe !/</div>
+        {/*<div className="punch-line">Find your tribe !</div>*/}
         <div className="input-box">
-          <input
-            className="input-area"
-            placeholder={placeholderText}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change
-          />
-          <button
-            type="submit"
-            className="submit-button"
-            onClick={handleApiCall} // Call API on button click
-          >
-            <i className="material-icons">search</i>
-          </button>
+          {/*<input*/}
+          {/*  className="input-area"*/}
+          {/*  placeholder={placeholderText}*/}
+          {/*  value={inputValue}*/}
+          {/*  onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change*/}
+          {/*/>*/}
+          {/*<button*/}
+          {/*  type="submit"*/}
+          {/*  className="submit-button"*/}
+          {/*  onClick={handleApiCall} // Call API on button click*/}
+          {/*>*/}
+          {/*  <i className="material-icons">search</i>*/}
+          {/*</button>*/}
+          <Link to="/signup" className="Link-style">
+            ><button className="join-tribe">Join endsem</button>
+          </Link>
+          <Link to="/login" className="Link-style">
+            ><button className="login-tribe">Login to endsem</button>
+          </Link>
+          <Link to="/discover" className="Link-style">
+            ><button className="find-tribe">Discover</button>
+          </Link>
+          <Link to="/register-varsity" className="Link-style">
+            ><button className="register-varsity">Register your varsity</button>
+          </Link>
         </div>
       </div>
     </div>
