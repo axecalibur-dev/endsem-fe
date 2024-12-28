@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { gql } from "graphql-tag";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import CommonUtilities from "../../utils/common";
 import { useUser } from "../../context/userContext"; // Import context hook
 
@@ -27,76 +29,78 @@ const LOGIN_MUTATION = gql`
 `;
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const { updateUser } = useUser(); // Get updateUser function from context
   const navigate = useNavigate(); // To navigate to different pages
-
-  // Check if the user is already logged in
-  useEffect(() => {
-    // Check if user is logged in by looking at localStorage items
-    const isLoggedIn =
-      localStorage.getItem("access_token") &&
-      localStorage.getItem("userDetails") &&
-      JSON.parse(localStorage.getItem("userDetails")); // Parse and check if userDetails is not null or empty
-
-    if (isLoggedIn) {
-      navigate("/profile"); // Redirect to the profile page if the user is already logged in
-    }
-  }, [navigate]);
 
   // Apollo mutation hook
   const [login, { loading, error, data }] = useMutation(LOGIN_MUTATION);
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await login({
-        variables: {
-          identity: email,
-          password: password,
-        },
-      });
-      console.log("Login successful:", data.login);
+  // Check if the user is already logged in
+  useEffect(() => {
+    const isLoggedIn =
+      localStorage.getItem("access_token") &&
+      localStorage.getItem("userDetails") &&
+      JSON.parse(localStorage.getItem("userDetails"));
 
-      if (data && data.login && data.login.access_token) {
-        // Save authentication tokens and user details to localStorage
-        Utils.save_authentication_local(
-          data.login["access_token"],
-          data.login["refresh_token"],
-        );
-
-        // Save user details in localStorage
-        Utils.save_user_details_local({
-          firstName: data.login.data[0].firstName,
-          lastName: data.login.data[0].lastName,
-          email: data.login.data[0].email,
-          id: data.login.data[0].id,
-        });
-
-        // Update user context after successful login
-        updateUser({
-          firstName: data.login.data[0].firstName,
-          lastName: data.login.data[0].lastName,
-          email: data.login.data[0].email,
-          id: data.login.data[0].id,
-        });
-
-        console.log("User context updated after login!");
-        navigate("/"); // Redirect to profile page after login
-      }
-    } catch (err) {
-      console.error("Login error:", err);
+    if (isLoggedIn) {
+      navigate("/profile"); // Redirect to the profile page
     }
-  };
+  }, [navigate]);
 
-  // Handle form reset
-  const handleReset = () => {
-    setEmail("");
-    setPassword("");
-  };
+  // Formik configuration
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Password is required"),
+    }),
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const { data } = await login({
+          variables: {
+            identity: values.email,
+            password: values.password,
+          },
+        });
+
+        if (data && data.login && data.login.access_token) {
+          // Save tokens and user details to localStorage
+          Utils.save_authentication_local(
+            data.login["access_token"],
+            data.login["refresh_token"],
+          );
+
+          Utils.save_user_details_local({
+            firstName: data.login.data[0].firstName,
+            lastName: data.login.data[0].lastName,
+            email: values.email,
+            id: data.login.data[0].id,
+          });
+
+          // Update user context
+          updateUser({
+            firstName: data.login.data[0].firstName,
+            lastName: data.login.data[0].lastName,
+            email: values.email,
+            id: data.login.data[0].id,
+          });
+
+          navigate("/"); // Redirect to home
+        }
+      } catch (err) {
+        console.error("Login error:", err);
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
   return (
     <div className="login-container">
@@ -113,34 +117,46 @@ function LoginPage() {
             Login to endsem <i className="material-icons">login</i>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <input
               className="login-username"
               placeholder="Enter email or username"
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.email && formik.errors.email ? (
+              <div className="error-message">{formik.errors.email}</div>
+            ) : null}
+
             <input
               className="login-password"
               placeholder="Enter password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.password && formik.errors.password ? (
+              <div className="error-message">{formik.errors.password}</div>
+            ) : null}
+
             <div className="submissions">
               <button
                 type="submit"
                 className="login-submit-button"
-                disabled={loading}
+                disabled={loading || formik.isSubmitting}
               >
-                {loading ? "Submitting..." : "Submit"}{" "}
+                {loading || formik.isSubmitting ? "Submitting..." : "Submit"}{" "}
                 <i className="material-icons">outbound</i>
               </button>
               <button
                 type="reset"
                 className="reset-submit-button"
-                onClick={handleReset}
+                onClick={formik.handleReset}
               >
                 Reset <i className="material-icons">backspace</i>
               </button>
@@ -155,7 +171,7 @@ function LoginPage() {
             )}
           </div>
           <div className="sign-up-prompt">
-            Forgot password | Not a member ? <a href="/signup"> Join endsem</a>
+            Forgot password | Not a member? <a href="/signup">Join endsem</a>
           </div>
         </div>
       </div>

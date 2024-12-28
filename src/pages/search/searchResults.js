@@ -42,7 +42,7 @@ function SearchResultsPage() {
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch("https://apis.endsem.com/graphql/api", {
+      await fetch(process.env.REACT_APP_SERVER_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,11 +80,14 @@ function SearchResultsPage() {
         headers["Authorization"] = `${accessToken}`; // Add Authorization header if logged in
       }
 
-      const response = await fetch("https://apis.endsem.com/search", {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL_REST}/search`,
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(payload),
+        },
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -109,7 +112,7 @@ function SearchResultsPage() {
 
     try {
       const token = localStorage.getItem("access_token");
-      const response = await fetch("https://apis.endsem.com/graphql/api", {
+      const response = await fetch(process.env.REACT_APP_SERVER_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,12 +165,14 @@ function SearchResultsPage() {
             </Link>
           </div>
           <div className="search-results-navbar-right">
-            <button
-              id="search-results-pill-btn"
-              className="search-results-about-button"
-            >
-              <b>Home</b>
-            </button>
+            <Link to="/">
+              <button
+                id="search-results-pill-btn"
+                className="search-results-about-button"
+              >
+                <b>Home</b>
+              </button>
+            </Link>
             <button
               id="search-results-pill-btn"
               className="search-results-contact-button"

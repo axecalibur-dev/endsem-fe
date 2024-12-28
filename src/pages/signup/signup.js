@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./signup.css";
 import { useUser } from "../../context/userContext"; // Ensure the correct import path
 import { Link, useNavigate } from "react-router-dom";
 import { gql } from "graphql-tag";
 import { useMutation } from "@apollo/client";
 import CommonUtilities from "../../utils/common";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Utils = new CommonUtilities();
 
@@ -45,96 +47,80 @@ const SIGNUP_MUTATION = gql`
 `;
 
 function SignupPage() {
-  const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
-  const [username, setUsername] = useState("");
-  const [FirstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [university, setUniversity] = useState("");
-  const [discipline, setDiscipline] = useState("");
-
   const navigate = useNavigate();
-  const { userDetails, updateUser } = useUser(); // Access user context
+  const { updateUser } = useUser(); // Access user context
   const [sign_up, { loading, error, data }] = useMutation(SIGNUP_MUTATION);
 
   // Check if the user is already logged in and redirect to profile
   useEffect(() => {
-    // Check if user is logged in by looking at localStorage items
     const isLoggedIn =
       localStorage.getItem("access_token") &&
-      localStorage.getItem("userDetails") &&
-      JSON.parse(localStorage.getItem("userDetails")); // Parse and check if userDetails is not null or empty
+      localStorage.getItem("userDetails");
 
     if (isLoggedIn) {
       navigate("/profile"); // Redirect to the profile page if the user is already logged in
     }
   }, [navigate]);
 
-  // Log userDetails when it changes
-  useEffect(() => {
-    if (userDetails) {
-      console.log("Updated user context:", userDetails);
-    }
-  }, [userDetails]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await sign_up({
-        variables: {
-          firstName: FirstName,
-          lastName: LastName,
-          password: password,
-          // phone: phone.trim(),
-          email: email,
-          username_handle: username,
-          university: university,
-          discipline: discipline,
-        },
-      });
-
-      if (data && data.sign_up && data.sign_up.access_token) {
-        // Save authentication tokens in localStorage
-        Utils.save_authentication_local(
-          data.sign_up["access_token"],
-          data.sign_up["refresh_token"],
-        );
-
-        // Save user details in localStorage
-        Utils.save_user_details_local({
-          firstName: data.sign_up.data[0].firstName,
-          lastName: data.sign_up.data[0].lastName,
-          id: data.sign_up.data[0].id,
+  // Formik for form state management
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      username: "",
+      password: "",
+      university: "",
+      discipline: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email address").required("Required"),
+      firstName: Yup.string().min(2, "Too short").required("Required"),
+      lastName: Yup.string().min(2, "Too short").required("Required"),
+      username: Yup.string()
+        .min(3, "Must be at least 3 characters")
+        .required("Required"),
+      password: Yup.string()
+        .min(6, "Must be at least 6 characters")
+        .required("Required"),
+      university: Yup.string().required("Required"),
+      discipline: Yup.string().required("Required"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        const { data } = await sign_up({
+          variables: {
+            ...values,
+            username_handle: values.username,
+          },
         });
 
-        // Update user context after successful login
-        updateUser({
-          firstName: data.sign_up.data[0].firstName,
-          lastName: data.sign_up.data[0].lastName,
-          email: data.sign_up.data[0].email,
-          id: data.sign_up.data[0].id,
-        });
+        if (data && data.sign_up && data.sign_up.access_token) {
+          Utils.save_authentication_local(
+            data.sign_up.access_token,
+            data.sign_up.refresh_token,
+          );
 
-        console.log("User context updated after signup!");
-        navigate("/"); // Redirect to profile page after signup
+          Utils.save_user_details_local({
+            firstName: data.sign_up.data[0].firstName,
+            lastName: data.sign_up.data[0].lastName,
+            id: data.sign_up.data[0].id,
+          });
+
+          updateUser({
+            firstName: data.sign_up.data[0].firstName,
+            lastName: data.sign_up.data[0].lastName,
+            email: values.email,
+            id: data.sign_up.data[0].id,
+          });
+
+          navigate("/"); // Redirect to profile page
+        }
+      } catch (err) {
+        console.error("Signup error:", err);
       }
-    } catch (err) {
-      console.error("Signup error:", err);
-    }
-  };
-
-  const handleReset = () => {
-    setEmail("");
-    // setPhone("");
-    setUsername("");
-    setFirstName("");
-    setLastName("");
-    setPassword("");
-    setUniversity("");
-    setDiscipline("");
-  };
+    },
+  });
 
   return (
     <div className="signup-container">
@@ -151,63 +137,98 @@ function SignupPage() {
             Join endsem <i className="material-icons">bolt</i>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={formik.handleSubmit}>
             <input
               className="signup-username"
               placeholder="Enter email"
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="error-message">{formik.errors.email}</p>
+            )}
+
             <input
               className="signup-username"
               placeholder="Enter first name"
               type="text"
-              value={FirstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              name="firstName"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.firstName && formik.errors.firstName && (
+              <p className="error-message">{formik.errors.firstName}</p>
+            )}
+
             <input
               className="signup-username"
               placeholder="Enter last name"
               type="text"
-              value={LastName}
-              onChange={(e) => setLastName(e.target.value)}
+              name="lastName"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.lastName && formik.errors.lastName && (
+              <p className="error-message">{formik.errors.lastName}</p>
+            )}
+
             <input
               className="signup-username"
               placeholder="Enter university name"
               type="text"
-              value={university}
-              onChange={(e) => setUniversity(e.target.value)}
+              name="university"
+              value={formik.values.university}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.university && formik.errors.university && (
+              <p className="error-message">{formik.errors.university}</p>
+            )}
+
             <input
               className="signup-username"
               placeholder="Enter discipline and year"
               type="text"
-              value={discipline}
-              onChange={(e) => setDiscipline(e.target.value)}
+              name="discipline"
+              value={formik.values.discipline}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
-            {/*<input*/}
-            {/*  className="signup-username"*/}
-            {/*  placeholder="Enter phone"*/}
-            {/*  type="text"*/}
-            {/*  value={phone}*/}
-            {/*  onChange={(e) => setPhone(e.target.value)}*/}
-            {/*/>*/}
+            {formik.touched.discipline && formik.errors.discipline && (
+              <p className="error-message">{formik.errors.discipline}</p>
+            )}
+
             <input
               className="signup-username"
               placeholder="Select a username"
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              name="username"
+              value={formik.values.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.username && formik.errors.username && (
+              <p className="error-message">{formik.errors.username}</p>
+            )}
+
             <input
               className="signup-password"
               placeholder="Enter password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
+            {formik.touched.password && formik.errors.password && (
+              <p className="error-message">{formik.errors.password}</p>
+            )}
+
             <div className="signup-submissions">
               <button
                 type="submit"
@@ -220,7 +241,7 @@ function SignupPage() {
               <button
                 type="reset"
                 className="signup-reset-button"
-                onClick={handleReset}
+                onClick={formik.handleReset}
               >
                 Reset <i className="material-icons">backspace</i>
               </button>

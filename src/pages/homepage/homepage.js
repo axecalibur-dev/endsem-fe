@@ -36,7 +36,7 @@ function Homepage() {
     try {
       // Make API call to logout
       const token = localStorage.getItem("access_token");
-      await fetch("https://apis.endsem.com/graphql/api", {
+      await fetch(process.env.REACT_APP_SERVER_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ function Homepage() {
         <div className="heading">
           <b>endsem</b>
         </div>
-        <div className="punch-line">/find your tribe !/</div>
+        <div className="punch-line">find your tribe!</div>
         <div className="input-box">
           {/*<input*/}
           {/*  className="input-area"*/}

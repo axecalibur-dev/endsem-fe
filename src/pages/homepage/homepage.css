@@ -182,16 +182,13 @@
 
 /* Example of centering child elements inside .main */
 .heading {
-    color: #c91847;
+    color: #c22f2f;
     display: flex;
     font-size: 150px;
     margin-bottom: 4px;
     transition: color 0.3s ease;
 }
 
-.heading:hover {
-    color: #c91847;
-}
 
 
 
